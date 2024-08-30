@@ -41,12 +41,21 @@ export async function POST(req) {
     );
   }
 
+  const [hasErrors, errors] = validateBookData(body)
+    if(hasErrors) {
+        return NextResponse.json({
+            message: errors
+        }, {
+            status: 400
+        })
+    }
+
   let newBook;
   try {
     newBook = await prisma.book.create({
       data: {
         title: body.title,
-        author: 12,
+        author: body.author
       },
     });
   }catch (error) {

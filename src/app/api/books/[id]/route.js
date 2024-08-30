@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import books from "@/data/books";
 import { object404Respsonse, validateBookData } from "@/utils/helpers/apiHelpers";
 
 import { PrismaClient } from "@prisma/client";
@@ -71,14 +70,16 @@ export async function PUT(req, options) {
 export async function DELETE(req, options) {
     const id = options.params.id
     
-    const bookIndex = books.findIndex(b => b.id == id)
-    if(bookIndex === -1) {
+    try {
+        await prisma.book.delete({
+            where: { id: Number(id) }
+        })
+        return new Response(null, {
+            status: 204
+        })
+    }catch (error) {
         return object404Respsonse(NextResponse, "Book")
     }
-    
-    books.splice(bookIndex,1) // Database call simulation
 
-    return new Response(null, {
-        status: 204
-    })
+
 }

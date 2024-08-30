@@ -18,3 +18,10 @@ model Book {
   title     String
   author    String
 }
+
+
+model Author {
+  id        Int    @id @default(autoincrement())
+  name      String
+  yearOfBirth Int
+}

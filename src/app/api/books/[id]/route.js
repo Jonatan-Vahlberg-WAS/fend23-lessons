@@ -22,13 +22,9 @@ export async function GET(req, options){
     }
 }
 
-export async function PUT(req) {
+export async function PUT(req, options) {
     const id = options.params.id;
-    if(!id) return object404Respsonse(NextResponse, "Book");
     
-    const book = books.find(b => b.id == id);
-    if(!book) return object404Respsonse(NextResponse, "Book")
-        
     let body;
 
     try {
@@ -42,21 +38,34 @@ export async function PUT(req) {
         })
     }
 
-    const [hasErrors, errors] = validateBookData(body, book)
+    const [hasErrors, errors] = validateBookData(body)
     if(hasErrors) {
         return NextResponse.json({
-            errors
+            message: errors
         }, {
             status: 400
         })
     }
 
-    const updatedBook = {
-        ...book,
-        ...body
-    }
+    try {
+        const updatedBook = await prisma.book.update({
+            where: {
+                id: Number(id)
+            },
+            data: {
+                title: body.title,
+                author: body.author
+            }
+        })
 
-    return NextResponse.json(updatedBook)
+        return NextResponse.json(updatedBook)
+    } catch(error) {
+        return NextResponse.json({
+            message: error.message
+        }, {
+            status: 500
+        })
+    }
 }
 
 export async function DELETE(req, options) {

@@ -45,10 +45,33 @@ export function validateBookData(data) {
     return [hasErrors, errors]
 }
 
+export function validateAuthorData(data) {
+    let errors = {}
+    if(!data.name || typeof data.name !== "string") {
+        errors.name = "Name is required"
+    }
+    if(!data.yearOfBirth || typeof data.yearOfBirth !== "number") {
+        errors.yearOfBirth = "yearOfBirth is required"
+    }
+    
+    const hasErrors = Object.keys(errors).length > 0;
+    return [hasErrors, errors]
+}
+
 export function object404Respsonse(response, model = "") {
     return response.json({
         message: `${model} not found`
     }, {
         status: 404
     })
+}
+
+export async function validateJSONData(req) {
+    let body
+    try {
+        body = await req.json() // Parse incoming data to json
+        return [false, body]
+    }catch (error) {
+        return [true,null]
+    }
 }

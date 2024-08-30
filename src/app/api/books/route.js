@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { lowerCaseCompare, validateBookData } from "@/utils/helpers/apiHelpers";
+import { validateBookData } from "@/utils/helpers/apiHelpers";
 
 import { PrismaClient } from "@prisma/client";
 

@@ -11,7 +11,7 @@ export async function POST(req) {
     let body;
     try {
       body = await req.json();
-     if(!body.email || !body.password || !body.name){
+     if(!body.email || !body.passwordxw){
       throw new Error()
      } 
     } catch (error) {
@@ -26,24 +26,9 @@ export async function POST(req) {
     }
 
     try {
-      const user = await prisma.user.create({
-        data: {
-          email: body.email,
-          password: body.password,
-          name: body.name
-        }
-      })
-
-      console.log("User registered: ", user)
-
-      const token = await signJWT({
-        userId: user.id
-      })
-
-      return NextResponse.json({
-        user,
-        token
-      })
+      //TODO: get user 
+      //TODO: generate token
+      //TODO: return token and user
     } catch (error) {
       console.log(error)
       return NextResponse.json({

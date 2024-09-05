@@ -43,7 +43,6 @@ export async function POST(req) {
   }
   const userId = req.headers.get('userId')
   console.log("User making the req: ", userId)
-  return NextResponse.json({})
 
   const [hasErrors, errors] = validateBookData(body)
     if(hasErrors) {

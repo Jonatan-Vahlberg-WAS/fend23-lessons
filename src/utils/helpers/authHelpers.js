@@ -2,7 +2,7 @@ import * as jose from "jose";
 
 const JWT_SECRET = "SECRET";
 
-const JWT_AUTH_EXP = "7d"
+const JWT_AUTH_EXP = "1y"
 
 function encodedSecret() {
     return new TextEncoder().encode(JWT_SECRET)

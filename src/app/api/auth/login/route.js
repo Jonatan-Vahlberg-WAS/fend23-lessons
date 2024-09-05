@@ -33,7 +33,7 @@ export async function POST(req) {
         }
       })
 
-      if(!user || user.password !== body.password){
+      if(!user || user.password !== body.password){ //TODO: replace with more safe check
         throw new Error("Invalid login credentials")
       }
 

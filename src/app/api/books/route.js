@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { validateBookData } from "@/utils/helpers/apiHelpers";
 
 import { PrismaClient } from "@prisma/client";
+import { verifyJWT } from "@/utils/helpers/authHelpers";
 
 const prisma = new PrismaClient();
 
@@ -40,6 +41,23 @@ export async function POST(req) {
       }
     );
   }
+  const userId = req.headers.get('userId')
+  console.log("User making the req: ", userId)
+  return NextResponse.json({})
+  // let jwtPayload;  
+  // try {
+  //   const bearer = req.headers.get('Authorization') || "";
+  //   const token = bearer.split(" ")?.[1];
+  //   if(!token) {
+  //     throw new Error("no token submitted")
+  //   }
+
+  //   jwtPayload = await verifyJWT(token)
+  // } catch (error) {
+  //   return NextResponse.json({
+  //     error: "Unauthorized request"
+  //   }, { status: 401 })
+  // }
 
   const [hasErrors, errors] = validateBookData(body)
     if(hasErrors) {

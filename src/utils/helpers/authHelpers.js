@@ -26,4 +26,5 @@ export async function verifyJWT(token) {
         encodedSecret()
     )
     console.log("verified", verified)
+    return verified.payload
 }

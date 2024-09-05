@@ -11,7 +11,8 @@ export async function POST(req) {
     let body;
     try {
       body = await req.json();
-     if(!body.email || !body.passwordxw){
+      console.log(body)
+     if(!body.email || !body.password){
       throw new Error()
      } 
     } catch (error) {
@@ -26,9 +27,24 @@ export async function POST(req) {
     }
 
     try {
-      //TODO: get user 
-      //TODO: generate token
-      //TODO: return token and user
+      const user = await prisma.user.findUnique({
+        where: {
+          email: body.email
+        }
+      })
+
+      if(!user || user.password !== body.password){
+        throw new Error("Invalid login credentials")
+      }
+
+      const token = await signJWT({
+        userId: user.id
+      })
+
+      return NextResponse.json({
+        user,
+        token
+      })
     } catch (error) {
       console.log(error)
       return NextResponse.json({

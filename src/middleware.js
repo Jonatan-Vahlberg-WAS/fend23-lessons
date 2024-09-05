@@ -4,8 +4,12 @@ import { verifyJWT } from "./utils/helpers/authHelpers";
 const unsafeMethods = ["POST", "PUT", "DELETE"];
 
 export async function middleware(req) {
-  console.log("Middleware is running", req.method);
-  if (unsafeMethods.includes(req.method)) {
+  console.log("Middleware is running", req.url.pathname);
+  const url = new URL(req.url);
+  if (
+    unsafeMethods.includes(req.method) ||
+    url.pathname.includes("api/users")
+  ) {
     console.log("VERIFY");
     let jwtPayload;
     try {
@@ -17,7 +21,7 @@ export async function middleware(req) {
 
       jwtPayload = await verifyJWT(token);
       const headers = new Headers(req.headers);
-      headers.set('userId', JSON.stringify(jwtPayload.userId));
+      headers.set("userId", JSON.stringify(jwtPayload.userId));
       return NextResponse.next({ headers: headers });
     } catch (error) {
       return NextResponse.json(
@@ -28,9 +32,13 @@ export async function middleware(req) {
       );
     }
   }
-
 }
 
 export const config = {
-  matcher: ["/api/authors/", "/api/books/", "/api/books/:path*"],
+  matcher: [
+    "/api/authors/",
+    "/api/books/",
+    "/api/books/:path*",
+    "/api/users/:path*",
+  ],
 };

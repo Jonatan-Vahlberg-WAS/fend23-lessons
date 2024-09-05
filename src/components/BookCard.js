@@ -1,12 +1,12 @@
 function BookCard({ book }) {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4">
-      <div className="font-bold text-xl mb-2">{book.title}</div>
-      <p className="text-gray-700 text-base">
-        <span className="font-semibold">Author:</span> {book.author}
+    <div className="book-card">
+      <div className="book-card__title">{book.title}</div>
+      <p className="book-card__detail">
+        <span className="book-card__label">Author:</span> {book.author}
       </p>
-      <p className="text-gray-700 text-base">
-        <span className="font-semibold">Genre:</span> {book.genre}
+      <p className="book-card__detail">
+        <span className="book-card__label">Genre:</span> {book.genre}
       </p>
     </div>
   );

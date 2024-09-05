@@ -55,7 +55,8 @@ export async function POST(req) {
     newBook = await prisma.book.create({
       data: {
         title: body.title,
-        author: body.author
+        author: body.author,
+        genre: body.genre
       },
     });
   }catch (error) {

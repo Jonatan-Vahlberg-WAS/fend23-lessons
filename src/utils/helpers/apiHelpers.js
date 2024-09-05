@@ -40,6 +40,9 @@ export function validateBookData(data) {
     if(!data.author || typeof data.author !== "string") {
         errors.author = "Author is required"
     }
+    if(!data.genre || typeof data.genre !== "string") {
+        errors.genre = "Genre is required"
+    }
     
     const hasErrors = Object.keys(errors).length > 0;
     return [hasErrors, errors]

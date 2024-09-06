@@ -11,17 +11,18 @@ export async function middleware(req) {
     url.pathname.includes("api/users")
   ) {
     console.log("VERIFY");
-    let jwtPayload;
     try {
       const bearer = req.headers.get("Authorization") || "";
-      const token = bearer.split(" ")?.[1];
+      const token = bearer.split(" ")?.[1]; // get the token from the Authorization header through optional chaining
       if (!token) {
         throw new Error("no token submitted");
       }
 
-      jwtPayload = await verifyJWT(token);
+      const jwtPayload = await verifyJWT(token);
+
       const headers = new Headers(req.headers);
       headers.set("userId", JSON.stringify(jwtPayload.userId));
+
       return NextResponse.next({ headers: headers });
     } catch (error) {
       return NextResponse.json(
@@ -37,8 +38,11 @@ export async function middleware(req) {
 export const config = {
   matcher: [
     "/api/authors/",
+    "/api/authors/:path*",
     "/api/books/",
+    "/api/books/import",
     "/api/books/:path*",
     "/api/users/:path*",
+    "/api/users/me"
   ],
 };

@@ -3,10 +3,12 @@
 import { useState } from "react";
 
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth";
 
 function AuthForm() {
 
     const router = useRouter()
+    const auth = useAuth()
 
   const [email, setEmail] = useState("test+vortals@testsson.com");
   const [password, setPassword] = useState("123123abc");
@@ -18,12 +20,6 @@ function AuthForm() {
     e.preventDefault();
     setError("")
 
-    console.log({
-        email,
-        password,
-        name,
-        isLogin,
-      });
     const url = isLogin ? "/api/auth/login" : "/api/auth/register"
     const response = await fetch(url,{
         method: "POST",
@@ -42,11 +38,14 @@ function AuthForm() {
 
         console.log("data", data)
         localStorage.setItem("@library/token", data.token)
+        auth.setToken(data.token)
         router.push("/books")
         return
     }
     setError("Invalid login credentials")
   }
+
+  console.log("Auth", auth)
 
   return (
     <div>

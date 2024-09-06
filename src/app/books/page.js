@@ -1,4 +1,5 @@
 import BookCard from "@/components/BookCard";
+import BookForm from "@/components/BookForm";
 
 export default async function Home() {
   const books = await fetch("http://localhost:3000/api/books/")
@@ -19,6 +20,7 @@ export default async function Home() {
             />
           ))}
       </section>
+      <BookForm/>
     </main>
   );
 }

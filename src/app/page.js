@@ -1,6 +1,11 @@
-import { redirect } from "next/navigation";
+import AuthForm from "@/components/AuthForm";
 
 export default async function Home() {
 
-  return redirect("/books")
+  return (
+    <main className="min-h-screen w-full">
+      Login
+      <AuthForm/>
+    </main>
+  )
 }
